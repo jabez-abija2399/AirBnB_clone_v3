@@ -1,31 +1,47 @@
 #!/usr/bin/python3
-"""Index views module."""
-from api.v1.views import app_views
+"""
+index
+"""
+
 from flask import jsonify
+from api.v1.views import app_views
+
 from models import storage
 
 
-# Create a route for status
-@app_views.route('/status')
+@app_views.route("/status", methods=['GET'], strict_slashes=False)
 def status():
-    """Return status OK."""
-    return jsonify({"status": "OK"})
+    """
+    status route
+    :return: response with json
+    """
+    data = {
+        "status": "OK"
+    }
+
+    resp = jsonify(data)
+    resp.status_code = 200
+
+    return resp
 
 
-@app_views.route('/api/v1/stats', methods=['GET'], strict_slashes=False)
+@app_views.route("/stats", methods=['GET'], strict_slashes=False)
 def stats():
     """
-    Retrieves the number of each objects by type.
-
-    Returns:
-        JSON representation of the statistics.
+    stats of all objs route
+    :return: json of all objs
     """
-    stats = {
-        'amenities': storage.count('Amenity'),
-        'cities': storage.count('City'),
-        'places': storage.count('Place'),
-        'reviews': storage.count('Review'),
-        'states': storage.count('State'),
-        'users': storage.count('User')
+    data = {
+        "amenities": storage.count("Amenity"),
+        "cities": storage.count("City"),
+        "places": storage.count("Place"),
+        "reviews": storage.count("Review"),
+        "states": storage.count("State"),
+        "users": storage.count("User"),
     }
-    return jsonify(stats)
+
+    resp = jsonify(data)
+    resp.status_code = 200
+
+    return resp
+
