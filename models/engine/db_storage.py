@@ -57,7 +57,12 @@ class DBStorage:
     def new(self, obj):
         """ adds objects to current database session """
         self.__session.add(obj)
+     
+    def get(self, cls, id):
+        """
+        Retrieves an object based on class and ID.
 
+<<<<<<< HEAD
     def get(self, cls, id):
         """
         fetches specific object
@@ -81,6 +86,40 @@ class DBStorage:
         """
         return len(self.all(cls))
 
+=======
+        Args:
+            cls (class): The class of the object to retrieve.
+            id (str): The ID of the object to retrieve.
+
+        Returns:
+            The object with the given ID, or None if not found.  
+        """
+        
+        key = cls.__name__ + '.' + id
+        
+        if key in self.__objects:
+            return self.__objects[key]
+        
+        else:
+            return None
+
+    def count(self, cls=None):
+        """
+        Returns the number of objects in storage matching the given class.
+
+        Args:
+            cls (class, optional): The class to filter objects by. If not provided, all objects will be counted.
+
+        Returns:
+            The number of objects in storage matching the given class.
+        """
+        
+        if cls is None:
+            return len(self.__objects)
+        else:
+            return sum(1 for obj in self.__objects.values() if type(obj) == cls)
+        
+>>>>>>> b98a6a42707ff6022bd91e3e7773e1589e0e6b38
     def save(self):
         """ commits all changes of current database session """
         self.__session.commit()
