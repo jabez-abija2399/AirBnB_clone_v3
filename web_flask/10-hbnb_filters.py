@@ -8,7 +8,6 @@ import os
 app = Flask(__name__)
 
 
-@app.teardown_appcontext
 def handle_teardown(self):
     """
         method to handle teardown
@@ -16,13 +15,16 @@ def handle_teardown(self):
     storage.close()
 
 
-@app.route('/cities_by_states', strict_slashes=False)
-def city_state_list():
+@app.route('/hbnb_filters', strict_slashes=False)
+def filters_list():
     """
-        method to render states from storage
+        method to display html page 6-index.html
     """
     states = storage.all('State').values()
-    return render_template("8-cities_by_states.html", states=states)
+    amenities = storage.all('Amenity').values()
+    return render_template(
+        "10-hbnb_filters.html",
+        states=states, amenities=amenities)
 
 if __name__ == '__main__':
-        app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000)
