@@ -3,6 +3,7 @@
 from flask import Flask
 from api.v1.views import app_views
 from models import storage
+from flask import jsonify
 
 
 # Create Flask application instance
@@ -16,6 +17,14 @@ app.register_blueprint(app_views)
 def teardown(exception):
     """Closes the storage connection."""
     storage.close()
+    
+# Your API routes and logic here...
+
+# Error handling for 404 errors
+@app.errorhandler(404)
+def not_found_error(error):
+    return jsonify({"error": "Not found"}), 404
+
 
 # Run Flask application
 if __name__ == "__main__":
